@@ -14,6 +14,13 @@ function demo(module_name, repo_url, fn) {
 let sequence = Promise.resolve()
 
 ////////////////////////////////////
+sequence = sequence.then(() => demo('output/clear-cli', 'https://github.com/sindresorhus/clear-cli', () => {
+	const clearCli = require('@offirmo/cli-toolbox/output/clear-cli')
+
+	clearCli()
+	console.log(`~~~~~~~ output/clear-cli ~~~~~~~`)
+}))
+////////////////////////////////////
 sequence = sequence.then(() => demo('output/columnify', 'https://github.com/timoxley/columnify', () => {
 	const columnify = require('@offirmo/cli-toolbox/output/columnify')
 
