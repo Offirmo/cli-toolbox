@@ -1,6 +1,6 @@
 {
   "name": "@offirmo/cli-toolbox",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An aggregation of useful quality modules related to writing CLI node apps",
   "main": "index.js",
   "scripts": {
