@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "test:interactive": "node test/interactive/index.js",
-    "test:quick": "node test/quick/index.js"
+    "test:quick": "node test/quick/index.js",
+    "np": "np"
   },
   "repository": {
     "type": "git",
