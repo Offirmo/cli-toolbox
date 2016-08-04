@@ -60,17 +60,28 @@ sequence = sequence.then(() => demo(
 ))
 ////////////////////////////////////
 sequence = sequence.then(() => demo(
-	'string/columnify',
+	'string/arrayify',
 	'columnify',
 	() => {
-		const columnify = require('@offirmo/cli-toolbox/string/columnify')
+		const arrayify = require('@offirmo/cli-toolbox/string/arrayify')
 
-		var data = {
+		const data = {
 			"commander@0.6.1": 1,
 			"minimatch@0.2.14": 3,
 			"mkdirp@0.3.5": 2,
 			"sigmund@1.0.0": 3
 		}
+
+		console.log(arrayify(data))
+	}
+))
+sequence = sequence.then(() => demo(
+	'string/columnify',
+	'cli-columns',
+	() => {
+		const columnify = require('@offirmo/cli-toolbox/string/columnify')
+
+		const data = require('pokemon').all
 
 		console.log(columnify(data))
 	}
