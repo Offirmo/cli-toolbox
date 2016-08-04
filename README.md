@@ -5,14 +5,14 @@ An aggregation of useful quality modules related to writing CLI node apps.
 
 ## Introduction
 * quality modules
+  * enough github stars or owner has a lot of github stars
 * semver
 * common convention
+  * functional programming (over OOP)
   * harmonized naming
-  * functional programming
+    * imperative (doSomething)
   * options object
 
 ## usage
 ...
 
-
-##

@@ -32,9 +32,11 @@
     "columnify": "^1.5.4",
     "conf": "^0.11.2",
     "figures": "^1.7.0",
+    "fs-extra": "^0.30.0",
     "humanize-string": "^1.0.1",
     "indent-string": "^3.0.0",
     "listr": "^0.5.0",
+    "load-json-file": "^2.0.0",
     "log-symbols": "^1.0.2",
     "lpad": "^2.0.1",
     "meow": "^3.7.0",
@@ -47,6 +49,7 @@
     "untildify": "^3.0.2",
     "update-notifier": "^1.0.2",
     "vorpal": "^1.11.2",
+    "write-json-file": "^2.0.0",
     "yargs": "^4.8.1"
   },
   "devDependencies": {
