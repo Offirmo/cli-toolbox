@@ -9,6 +9,7 @@ An aggregation of useful quality modules related to writing CLI node apps.
 * semver
 * common convention
   * functional programming (over OOP)
+  * async return promises
   * harmonized naming
     * imperative (doSomething)
   * options object

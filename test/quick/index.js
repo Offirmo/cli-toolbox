@@ -1,9 +1,12 @@
 #!/bin/sh
-':' //# http://sambal.org/?p=1014 ; exec `dirname $0`/../../node_modules/.bin/ts-node "$0" "$@"
+':' //# http://sambal.org/?p=1014 ; exec /usr/bin/env node "$0" "$@"
 
 require('loud-rejection/register')
-const sumUp = require('sum-up');
 
+const path = require('path')
+const sumUp = require('sum-up')
+
+const MARKDOWN_OUTPUT = false
 const DISPLAY_CODE = false
 console.log(sumUp(require('../../package.json')));
 
@@ -14,23 +17,33 @@ require = function(moduleRef) {
 	return originalRequire(moduleRef)
 }
 
+require('@offirmo/cli-toolbox/stdout/clear-cli')()
 const stylizeString = require('@offirmo/cli-toolbox/string/stylize-string')
 
 
-function demo(moduleName, repoUrl, fn) {
-	console.log(`### ~~~~~~~ ${moduleName} ~~~~~~~`)
-
-	if (DISPLAY_CODE) {
-		console.log('```js')
-		console.log(fn.toString().split('\n').slice(1, -1).map(s => s.slice(2)).join('\n'))
-		console.log('```')
+function demo(moduleName, urlOrModeModuleName, fn) {
+	console.log(`${MARKDOWN_OUTPUT?'### ':''}~~~~~~~ ${moduleName} ~~~~~~~`)
+	if (urlOrModeModuleName.slice(0, 4) === 'http') {
+		console.log(`See more at ${stylizeString.blue(urlOrModeModuleName)}`)
+	}
+	else {
+		const modulePackage = { json: require(path.join('../../node_modules', urlOrModeModuleName, 'package.json'))}
+		let resume = 'Based on: ' + sumUp(modulePackage.json)
+		if (MARKDOWN_OUTPUT) resume = resume.split('\n').join('\n\n')
+		console.log(resume)
 	}
 
-	console.log('```')
+	if (DISPLAY_CODE) {
+		if (MARKDOWN_OUTPUT) console.log('```js')
+		console.log(fn.toString().split('\n').slice(1, -1).map(s => s.slice(2)).join('\n'))
+		if (MARKDOWN_OUTPUT) console.log('```')
+	}
+
+	console.log(stylizeString.dim.italic('```'))
 	return Promise.resolve(fn())
-	.then(
-		() => console.log(stylizeString.dim.italic('```' + `\nSee more at ${stylizeString.blue(repoUrl)}`))
-	)
+	.then(() => {
+		console.log(stylizeString.dim.italic('```'))
+	})
 }
 
 let sequence = Promise.resolve()
@@ -42,14 +55,13 @@ sequence = sequence.then(() => demo(
 	() => {
 		const clearCli = require('@offirmo/cli-toolbox/stdout/clear-cli')
 
-		clearCli()
-		console.log(`~~~~~~~ output/clear-cli ~~~~~~~`)
+		//clearCli()
 	}
 ))
 ////////////////////////////////////
 sequence = sequence.then(() => demo(
 	'string/columnify',
-	'https://github.com/timoxley/columnify',
+	'columnify',
 	() => {
 		const columnify = require('@offirmo/cli-toolbox/string/columnify')
 
@@ -66,7 +78,7 @@ sequence = sequence.then(() => demo(
 ////////////////////////////////////
 sequence = sequence.then(() => demo(
 	'string/boxify',
-	'https://github.com/sindresorhus/boxen',
+	'boxen',
 	() => {
 		const boxify = require('@offirmo/cli-toolbox/string/boxify')
 
@@ -76,7 +88,7 @@ sequence = sequence.then(() => demo(
 ////////////////////////////////////
 sequence = sequence.then(() => demo(
 	'string/prettify-json',
-	'https://github.com/rafeca/prettyjson',
+	'prettyjson',
 	() => {
 		const prettifyJson = require('@offirmo/cli-toolbox/string/prettify-json')
 
@@ -95,7 +107,7 @@ sequence = sequence.then(() => demo(
 ////////////////////////////////////
 sequence = sequence.then(() => demo(
 	'string/stylize-string',
-	'https://github.com/rafeca/prettyjson',
+	'chalk',
 	() => {
 		const stylizeString = require('@offirmo/cli-toolbox/string/stylize-string')
 
@@ -105,7 +117,7 @@ sequence = sequence.then(() => demo(
 ////////////////////////////////////
 sequence = sequence.then(() => demo(
 	'framework/meow',
-	'https://github.com/sindresorhus/meow',
+	'meow',
 	() => {
 		const meow = require('@offirmo/cli-toolbox/framework/meow')
 	}
@@ -113,9 +125,20 @@ sequence = sequence.then(() => demo(
 ////////////////////////////////////
 sequence = sequence.then(() => demo(
 	'framework/vorpal',
-	'https://github.com/dthree/vorpal',
+	'vorpal',
 	() => {
 		const vorpal = require('@offirmo/cli-toolbox/framework/vorpal')
+	}
+))
+////////////////////////////////////
+sequence = sequence.then(() => demo(
+	'fs/extra',
+	'fs-extra',
+	() => {
+		const fs = require('@offirmo/cli-toolbox/fs/extra')
+
+		const dirs = fs.lsDirs(__dirname + '/../..')
+		console.log(dirs)
 	}
 ))
 ////////////////////////////////////
