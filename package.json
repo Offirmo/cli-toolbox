@@ -59,7 +59,7 @@
     "lodash": "^4.14.1",
     "loud-rejection": "^1.6.0",
     "np": "^2.7.0",
-    "pokemon": "^0.3.0",
+    "pokemon": "^0.5.0",
     "sum-up": "^2.0.0"
   }
 }
