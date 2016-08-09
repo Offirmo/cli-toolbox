@@ -19,19 +19,24 @@ require = function(moduleRef) {
 
 require('@offirmo/cli-toolbox/stdout/clear-cli')()
 const stylizeString = require('@offirmo/cli-toolbox/string/stylize-string')
+const _ = require('@offirmo/cli-toolbox/lodash')
 
 
-function demo(moduleName, urlOrModeModuleName, fn) {
+function demo(moduleName, urlOrModeModuleNames, fn) {
 	console.log(`${MARKDOWN_OUTPUT?'### ':''}~~~~~~~ ${moduleName} ~~~~~~~`)
-	if (urlOrModeModuleName.slice(0, 4) === 'http') {
-		console.log(`See more at ${stylizeString.blue(urlOrModeModuleName)}`)
-	}
-	else {
-		const modulePackage = { json: require(path.join('../../node_modules', urlOrModeModuleName, 'package.json'))}
-		let resume = 'Based on: ' + sumUp(modulePackage.json)
-		if (MARKDOWN_OUTPUT) resume = resume.split('\n').join('\n\n')
-		console.log(resume)
-	}
+
+	urlOrModeModuleNames = _.flatten([ urlOrModeModuleNames ])
+	urlOrModeModuleNames.forEach(urlOrModeModuleName => {
+		if (urlOrModeModuleName.slice(0, 4) === 'http') {
+			console.log(`See more at ${stylizeString.blue(urlOrModeModuleName)}`)
+		}
+		else {
+			const modulePackage = { json: require(path.join('../../node_modules', urlOrModeModuleName, 'package.json'))}
+			let resume = 'Based on: ' + sumUp(modulePackage.json)
+			if (MARKDOWN_OUTPUT) resume = resume.split('\n').join('\n\n')
+			console.log(resume)
+		}
+	})
 
 	if (DISPLAY_CODE) {
 		if (MARKDOWN_OUTPUT) console.log('```js')
@@ -48,6 +53,44 @@ function demo(moduleName, urlOrModeModuleName, fn) {
 
 let sequence = Promise.resolve()
 
+
+////////////////////////////////////
+sequence = sequence.then(() => demo(
+	'framework/meow',
+	'meow',
+	() => {
+		const meow = require('@offirmo/cli-toolbox/framework/meow')
+	}
+))
+////////////////////////////////////
+sequence = sequence.then(() => demo(
+	'framework/vorpal',
+	'vorpal',
+	() => {
+		const vorpal = require('@offirmo/cli-toolbox/framework/vorpal')
+	}
+))
+////////////////////////////////////
+sequence = sequence.then(() => demo(
+	'fs/json',
+	[ 'load-json-file', 'write-json-file' ],
+	() => {
+		const json = require('@offirmo/cli-toolbox/fs/json')
+
+		return json.read(__dirname + '/../../package.json').then(data => console.log(data.repository))
+	}
+))
+////////////////////////////////////
+sequence = sequence.then(() => demo(
+	'fs/extra',
+	'fs-extra',
+	() => {
+		const fs = require('@offirmo/cli-toolbox/fs/extra')
+
+		const dirs = fs.lsDirs(__dirname + '/../..')
+		console.log(dirs)
+	}
+))
 ////////////////////////////////////
 sequence = sequence.then(() => demo(
 	'stdout/clear-cli',
@@ -60,40 +103,50 @@ sequence = sequence.then(() => demo(
 ))
 ////////////////////////////////////
 sequence = sequence.then(() => demo(
-	'string/arrayify',
-	'columnify',
+	'stdout/visual_tasks',
+	'listr',
 	() => {
-		const arrayify = require('@offirmo/cli-toolbox/string/arrayify')
+		const visual_tasks = require('@offirmo/cli-toolbox/stdout/visual_tasks')
 
-		const data = {
-			"commander@0.6.1": 1,
-			"minimatch@0.2.14": 3,
-			"mkdirp@0.3.5": 2,
-			"sigmund@1.0.0": 3
-		}
-
-		console.log(arrayify(data))
-	}
-))
-sequence = sequence.then(() => demo(
-	'string/columnify',
-	'cli-columns',
-	() => {
-		const columnify = require('@offirmo/cli-toolbox/string/columnify')
-
-		const data = require('pokemon').all
-
-		console.log(columnify(data))
+		return visual_tasks.run([
+			////////////
+			{
+				title: 'Gathering list of models',
+				task: () => (new Promise(resolve => setTimeout(resolve, 250)))
+			},
+			////////////
+			{
+				title: 'Synchronizing models',
+				task: () => visual_tasks.create(
+					[1, 2, 3].map(x => ({
+						title: `${x}`,
+						task: () => (new Promise((resolve, reject) => {
+							x === 2 ? reject(new Error('failed at step 2')) : setTimeout(resolve, 250)
+						}))
+					})),
+					{concurrent: true}
+				)
+			},
+			////////////
+			{
+				title: 'All done',
+				task: () => {}
+			}
+			////////////
+		])
+		.catch(err => {
+			console.error(err.message)
+		})
 	}
 ))
 ////////////////////////////////////
 sequence = sequence.then(() => demo(
-	'string/boxify',
-	'boxen',
+	'string/fancy/make_sparkline',
+	'sparkly',
 	() => {
-		const boxify = require('@offirmo/cli-toolbox/string/boxify')
+		const make_sparkline = require('@offirmo/cli-toolbox/string/fancy/make_sparkline')
 
-		console.log(boxify('Hello'))
+		// TODO
 	}
 ))
 ////////////////////////////////////
@@ -127,29 +180,43 @@ sequence = sequence.then(() => demo(
 ))
 ////////////////////////////////////
 sequence = sequence.then(() => demo(
-	'framework/meow',
-	'meow',
+	'string/arrayify',
+	'columnify',
 	() => {
-		const meow = require('@offirmo/cli-toolbox/framework/meow')
-	}
-))
-////////////////////////////////////
-sequence = sequence.then(() => demo(
-	'framework/vorpal',
-	'vorpal',
-	() => {
-		const vorpal = require('@offirmo/cli-toolbox/framework/vorpal')
-	}
-))
-////////////////////////////////////
-sequence = sequence.then(() => demo(
-	'fs/extra',
-	'fs-extra',
-	() => {
-		const fs = require('@offirmo/cli-toolbox/fs/extra')
+		const arrayify = require('@offirmo/cli-toolbox/string/arrayify')
 
-		const dirs = fs.lsDirs(__dirname + '/../..')
-		console.log(dirs)
+		const data = {
+			"commander@0.6.1": 1,
+			"minimatch@0.2.14": 3,
+			"mkdirp@0.3.5": 2,
+			"sigmund@1.0.0": 3
+		}
+
+		console.log(arrayify(data))
 	}
 ))
+////////////////////////////////////
+sequence = sequence.then(() => demo(
+	'string/boxify',
+	'boxen',
+	() => {
+		const boxify = require('@offirmo/cli-toolbox/string/boxify')
+
+		console.log(boxify('Hello'))
+	}
+))
+////////////////////////////////////
+sequence = sequence.then(() => demo(
+	'string/columnify',
+	'cli-columns',
+	() => {
+		const columnify = require('@offirmo/cli-toolbox/string/columnify')
+
+		const data = require('pokemon').all
+
+		console.log(columnify(data))
+	}
+))
+////////////////////////////////////
+sequence = sequence.then(() => console.log(`~~~ All done, thank you ! ~~~`))
 ////////////////////////////////////
