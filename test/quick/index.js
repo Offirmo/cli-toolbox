@@ -146,7 +146,7 @@ sequence = sequence.then(() => demo(
 	() => {
 		const make_sparkline = require('@offirmo/cli-toolbox/string/fancy/make_sparkline')
 
-		console.log(make_sparkline([1, 2, 3, 4, 5, 6, 7, 8], {style: 'fire'}))
+		console.log(make_sparkline([1, 2, 3, 4, 5, 6, 7, 8, 9], {style: 'fire'}))
 	}
 ))
 ////////////////////////////////////
