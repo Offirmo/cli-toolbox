@@ -18,7 +18,7 @@ require = function(moduleRef) {
 }
 
 require('@offirmo/cli-toolbox/stdout/clear-cli')()
-const stylizeString = require('@offirmo/cli-toolbox/string/stylize-string')
+const stylizeString = require('@offirmo/cli-toolbox/string/stylize')
 const _ = require('@offirmo/cli-toolbox/lodash')
 
 
@@ -103,6 +103,25 @@ sequence = sequence.then(() => demo(
 ))
 ////////////////////////////////////
 sequence = sequence.then(() => demo(
+	'stdout/display_in_ascii_art_font',
+	'cfonts',
+	() => {
+		const displayInAsciiArtFont = require('@offirmo/cli-toolbox/stdout/display_in_ascii_art_font')
+
+		displayInAsciiArtFont('❤ cli-toolbox') // font = block by default
+
+		displayInAsciiArtFont('font: console ❤', { font: 'console', colors: ['yellow']})
+		displayInAsciiArtFont('font: block', { font: 'block', colors: ['yellow', 'green']})
+		displayInAsciiArtFont('font: simpleBlock', { font: 'simpleBlock', colors: ['yellow']})
+		displayInAsciiArtFont('font: simple', { font: 'simple', colors: ['yellow']})
+		displayInAsciiArtFont('font: 3d', { font: '3d', colors: ['yellow', 'green']})
+		displayInAsciiArtFont('font: simple3d', { font: 'simple3d', colors: ['yellow']})
+		displayInAsciiArtFont('font: chrome', { font: 'chrome', colors: ['yellow', 'green', 'red']})
+		displayInAsciiArtFont('font: huge', { font: 'huge', colors: ['yellow', 'green']})
+	}
+))
+////////////////////////////////////
+sequence = sequence.then(() => demo(
 	'stdout/visual_tasks',
 	'listr',
 	() => {
@@ -141,6 +160,16 @@ sequence = sequence.then(() => demo(
 ))
 ////////////////////////////////////
 sequence = sequence.then(() => demo(
+	'string/fancy/ansi_colors',
+	'listr',
+	() => {
+		const ansi_colors = require('@offirmo/cli-toolbox/string/fancy/ansi_colors')
+
+		console.log(ansi_colors.fg.getRgb(2,3,4) + ansi_colors.bg.getRgb(4,4,4) + 'Hello world!' + ansi_colors.reset)
+	}
+))
+////////////////////////////////////
+sequence = sequence.then(() => demo(
 	'string/fancy/make_sparkline',
 	'sparkly',
 	() => {
@@ -173,7 +202,7 @@ sequence = sequence.then(() => demo(
 	'string/stylize-string',
 	'chalk',
 	() => {
-		const stylizeString = require('@offirmo/cli-toolbox/string/stylize-string')
+		const stylizeString = require('@offirmo/cli-toolbox/string/stylize')
 
 		console.log(stylizeString.bold.yellow.bgBlue('Hello'))
 	}
@@ -215,6 +244,19 @@ sequence = sequence.then(() => demo(
 		const data = require('pokemon').all
 
 		console.log(columnify(data))
+	}
+))
+////////////////////////////////////
+sequence = sequence.then(() => demo(
+	'string/log-symbols',
+	'log-symbols',
+	() => {
+		const logSymbols = require('@offirmo/cli-toolbox/string/log-symbols')
+
+		console.log(logSymbols.info, 'info')
+		console.log(logSymbols.success, 'success')
+		console.log(logSymbols.warning, 'warning')
+		console.log(logSymbols.error, 'error')
 	}
 ))
 ////////////////////////////////////
