@@ -54,7 +54,7 @@
     "update-notifier": "^1.0.2",
     "vorpal": "^1.11.2",
     "write-json-file": "^2.0.0",
-    "yargs": "^4.8.1"
+    "yargs": "^5.0.0"
   },
   "devDependencies": {
     "lodash": "^4.14.1",
