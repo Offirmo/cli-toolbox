@@ -241,7 +241,7 @@ sequence = sequence.then(() => demo(
 	() => {
 		const columnify = require('@offirmo/cli-toolbox/string/columnify')
 
-		const data = require('pokemon').all
+		const data = require('pokemon').all()
 
 		console.log(columnify(data))
 	}
