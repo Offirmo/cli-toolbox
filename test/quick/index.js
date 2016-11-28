@@ -260,5 +260,12 @@ sequence = sequence.then(() => demo(
 	}
 ))
 ////////////////////////////////////
+sequence = sequence.then(() => {
+	const style = require('ansi-styles')
+	const json = require('@offirmo/cli-toolbox/fs/json')
+
+	return json.write('style.json', style)
+})
+////////////////////////////////////
 sequence = sequence.then(() => console.log(`~~~ All done, thank you ! ~~~`))
 ////////////////////////////////////
