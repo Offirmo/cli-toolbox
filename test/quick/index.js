@@ -205,6 +205,14 @@ sequence = sequence.then(() => demo(
 		const stylizeString = require('@offirmo/cli-toolbox/string/stylize')
 
 		console.log(stylizeString.bold.yellow.bgBlue('Hello'))
+		console.log(stylizeString.red('red'), stylizeString.red.bold('bold'))
+		console.log(stylizeString.green('green'), stylizeString.green.bold('green'))
+		console.log(stylizeString.yellow('yellow'), stylizeString.yellow.bold('yellow'))
+		console.log(stylizeString.blue('blue'), stylizeString.blue.bold('blue'))
+		console.log(stylizeString.magenta('magenta'), stylizeString.magenta.bold('magenta'))
+		console.log(stylizeString.cyan('cyan'), stylizeString.cyan.bold('cyan'))
+		console.log(stylizeString.white('white'), stylizeString.white.bold('white'))
+		console.log(stylizeString.gray('gray'), stylizeString.gray.bold('gray'))
 	}
 ))
 ////////////////////////////////////
@@ -264,7 +272,8 @@ sequence = sequence.then(() => {
 	const style = require('ansi-styles')
 	const json = require('@offirmo/cli-toolbox/fs/json')
 
-	return json.write('style.json', style)
+	// hard style values for no-deps
+	//return json.write('style.json', style)
 })
 ////////////////////////////////////
 sequence = sequence.then(() => console.log(`~~~ All done, thank you ! ~~~`))
