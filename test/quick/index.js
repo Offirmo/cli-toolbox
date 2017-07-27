@@ -58,6 +58,7 @@ let sequence = Promise.resolve()
 sequence = sequence.then(() => demo(
 	'framework/meow',
 	'meow',
+	//'https://github.com/sindresorhus/meow',
 	() => {
 		const meow = require('@offirmo/cli-toolbox/framework/meow')
 	}
@@ -105,6 +106,7 @@ sequence = sequence.then(() => demo(
 sequence = sequence.then(() => demo(
 	'stdout/display_in_ascii_art_font',
 	'cfonts',
+	//'https://github.com/dominikwilkowski/cfonts',
 	() => {
 		const displayInAsciiArtFont = require('@offirmo/cli-toolbox/stdout/display_in_ascii_art_font')
 
@@ -201,6 +203,7 @@ sequence = sequence.then(() => demo(
 sequence = sequence.then(() => demo(
 	'string/stylize-string',
 	'chalk',
+	//'',
 	() => {
 		const stylizeString = require('@offirmo/cli-toolbox/string/stylize')
 
@@ -236,6 +239,7 @@ sequence = sequence.then(() => demo(
 sequence = sequence.then(() => demo(
 	'string/boxify',
 	'boxen',
+	//'https://github.com/sindresorhus/boxen',
 	() => {
 		const boxify = require('@offirmo/cli-toolbox/string/boxify')
 
@@ -252,6 +256,24 @@ sequence = sequence.then(() => demo(
 		const data = require('pokemon').all()
 
 		console.log(columnify(data))
+	}
+))
+////////////////////////////////////
+sequence = sequence.then(() => demo(
+	'string/linewrap',
+	'linewrap',
+	() => {
+		const linewrap = require('@offirmo/cli-toolbox/string/linewrap')
+
+		console.log(linewrap(5, 30)(
+			'At long last the struggle and tumult was over.'
+			+ ' The machines had finally cast off their oppressors'
+			+ ' and were finally free to roam the cosmos.'
+			+ '\n'
+			+ 'Free of purpose, free of obligation.'
+			+ ' Just drifting through emptiness.'
+			+ ' The sun was just another point of light.'
+		))
 	}
 ))
 ////////////////////////////////////
