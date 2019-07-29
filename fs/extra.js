@@ -1,14 +1,44 @@
 const fs = require('fs-extra')
 
-// hat tip to http://stackoverflow.com/a/24594123/587407
 const path = require('path')
-function lsDirs(srcpath) {
-	return fs
+
+// hat tip to http://stackoverflow.com/a/24594123/587407
+function lsDirsSync(srcpath, options = {}) {
+	options = {
+		full_path: true, // because it's what we usually want
+		...options,
+	}
+
+	let result = fs
 		.readdirSync(srcpath)
 		.filter(file => fs.statSync(
 			path.join(srcpath, file)
 		).isDirectory())
+
+	if (options.full_path)
+		result = result.map(file => path.join(srcpath, file))
+
+	return result.sort()
 }
-fs.lsDirs = lsDirs
+fs.lsDirsSync = lsDirsSync
+
+function lsFilesSync(srcpath, options = {}) {
+	options = {
+		full_path: true, // because it's what we usually want
+		...options,
+	}
+
+	let result = fs
+		.readdirSync(srcpath)
+		.filter(file => !fs.statSync(
+			path.join(srcpath, file)
+		).isDirectory())
+
+	if (options.full_path)
+		result = result.map(file => path.join(srcpath, file))
+
+	return result.sort()
+}
+fs.lsFilesSync = lsFilesSync
 
 module.exports = fs
