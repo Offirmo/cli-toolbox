@@ -1,6 +1,6 @@
 {
   "name": "@offirmo/cli-toolbox",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "description": "An aggregation of useful quality modules related to writing CLI node apps",
   "author": "Offirmo <offirmo.net@gmail.com>",
   "license": "UNLICENSED",
@@ -25,9 +25,10 @@
     "np": "np"
   },
   "devDependencies": {
-    "loud-rejection": "^1.6.0",
-    "pokemon": "^1.2.0",
-    "sum-up": "^3.0.0"
+    "loud-rejection": "^1",
+    "np": "^6",
+    "pokemon": "^1",
+    "sum-up": "^3"
   },
 
   "repository": {
